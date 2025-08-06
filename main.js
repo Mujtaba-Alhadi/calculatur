@@ -1,29 +1,12 @@
-// make functions add, subtract, multiply, divide, mod
-// make operate function
-// make buttons for each digit and operator
-// make a dummy display
-// add a "clear" button
-// make functions to show the input on the display
-// store the first and second numbers input by the user and then operate() on them when the user presses the =
-
 const userInput = document.querySelector(".user-input");
 const result = document.querySelector(".result");
 const allClear = document.querySelector(".all-clear");
 const backspace = document.querySelector(".backspace");
-const modBtn = document.querySelector(".mod-btn");
-const divideBtn = document.querySelector(".divide-btn");
-const oneBtn = document.querySelector(".one-btn");
-const twoBtn = document.querySelector(".two-btn");
-const threeBtn = document.querySelector(".three-btn");
-const fourBtn = document.querySelector(".four-btn");
-const fiveBtn = document.querySelector(".five-btn");
-const sixBtn = document.querySelector(".six-btn");
-const sevenBtn = document.querySelector(".seven-btn");
-const eightBtn = document.querySelector(".eight-btn");
-const nineBtn = document.querySelector(".nine-btn");
-const zeroBtn = document.querySelector(".zero-btn");
 const dotBtn = document.querySelector(".dot-btn");
 const equalBtn = document.querySelector(".equal-btn");
+const digits = document.querySelectorAll(".digit");
+const operators = document.querySelectorAll(".operator");
+const operatorsArr = [...operators].map((el) => el.textContent);
 
 function add(num1, num2) {
   return num1 + num2;
@@ -54,3 +37,44 @@ function operate(operator, num1, num2) {
     return mod(num1, num2);
   }
 }
+
+function display(btn) {
+  lastInput = userInput.textContent[userInput.textContent.length - 1];
+  if (
+    userInput.textContent === "0" &&
+    !operatorsArr.includes(btn.textContent) &&
+    btn !== dotBtn
+  ) {
+    userInput.textContent = "";
+    userInput.textContent += btn.textContent;
+  } else if (
+    operatorsArr.includes(btn.textContent) &&
+    operatorsArr.includes(lastInput)
+  ) {
+    userInput.textContent = userInput.textContent.slice(0, -1);
+    userInput.textContent += btn.textContent;
+  } else {
+    userInput.textContent += btn.textContent;
+  }
+}
+
+digits.forEach((digit) => {
+  digit.addEventListener("click", (e) => display(e.target));
+});
+operators.forEach((op) => {
+  op.addEventListener("click", (e) => display(e.target));
+});
+dotBtn.addEventListener("click", (e) => display(e.target));
+
+allClear.addEventListener("click", () => {
+  userInput.textContent = "0";
+});
+backspace.addEventListener("click", () => {
+  if (userInput.textContent.length === 1) {
+    userInput.textContent = "0";
+  } else {
+    userInput.textContent = userInput.textContent.slice(0, -1);
+  }
+});
+
+equalBtn.addEventListener("click", () => {});
