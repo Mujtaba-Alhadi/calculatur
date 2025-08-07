@@ -1,2 +1,2 @@
-# calculatur
-a calculator :)
+# calculator
+Just a calculator :)
